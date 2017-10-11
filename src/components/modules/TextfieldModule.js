@@ -28,16 +28,17 @@ export default class TextFieldModule extends React.Component {
             this.props.onChange(event)
         }
     };
-    
+
     render() {
         return (
-            <div className='center-align'>
+            <div className='center-align' style={this.props.style}>
                 <span>{this.props.lableName} : </span>
                 <TextField
                     hintText={this.props.hintText}
                     errorText={this.props.errorText}
                     value={this.state.value}
-                    style={{ paddingLeft: '24px' }}
+                    style={Object.assign({ paddingLeft: '24px' })}
+                    type={this.props.type}
                     disabled={this.props.disabled}
                     onChange={this.handleChange}
                 />
@@ -52,7 +53,9 @@ TextFieldModule.propTypes = {
     hintText: PropTypes.string,
     value: PropTypes.string,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    style: PropTypes.object,
+    type: PropTypes.string
 }
 
 TextFieldModule.defaultProps = {

@@ -10,6 +10,7 @@ import reactLogo from '../asset/react.svg'
 
 import RaisedButton from 'material-ui/RaisedButton';
 import LoginPersonIco from 'material-ui/svg-icons/social/person';
+import AddPersonIco from 'material-ui/svg-icons/social/person-add';
 import FontIcon from 'material-ui/FontIcon';
 
 class Navigation extends Component {
@@ -26,13 +27,24 @@ class Navigation extends Component {
                         </Link>
                     </div>
                     <div className='col-md-6 xs-only-text-center text-right'>
-                        <RaisedButton
-                            className='common-button'
-                            label="เข้าสู่ระบบ"
-                            labelPosition="before"
-                            primary={true}
-                            icon={<LoginPersonIco />}
-                        />
+                        <Link to='signup' >
+                            <RaisedButton
+                                className='common-button'
+                                label="Sign up"
+                                labelPosition="before"
+                                secondary={true}
+                                icon={<AddPersonIco />}
+                            />
+                        </Link>
+                        <Link to='login' >
+                            <RaisedButton
+                                className='common-button'
+                                label="Login"
+                                labelPosition="before"
+                                primary={true}
+                                icon={<LoginPersonIco />}
+                            />
+                        </Link>
                     </div>
 
                 </div>

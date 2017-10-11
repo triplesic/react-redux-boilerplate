@@ -11,6 +11,8 @@ import { persistStore, autoRehydrate } from 'redux-persist'
 import Navigation from './components/Navigation';
 import HomeIndex from './components/HomeIndex';
 import Customer from './components/Customer'
+import Signup from './components/Signup'
+import Login from './components/Login'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -28,22 +30,24 @@ const store = createStore(
     reducer,
     undefined,
     compose(
-      applyMiddleware(thunk, promise),
-      autoRehydrate()
+        applyMiddleware(thunk, promise),
+        autoRehydrate()
     )
-  )
+)
 
-  persistStore(store)
+persistStore(store)
 
 const router = () => {
     return (
         <Router>
             <div>
                 <div className='container-fluid'>
-                    <Navigation /> 
+                    <Navigation />
                 </div>
                 <Switch>
                     <Route path="/customer" component={Customer} />
+                    <Route path="/signup" component={Signup} />
+                    <Route path="/login" component={Login} />
                     <Route path="/" component={HomeIndex} />
                 </Switch>
             </div>
@@ -56,8 +60,8 @@ const router = () => {
 // More on Colors: http://www.material-ui.com/#/customization/colors
 const muiTheme = getMuiTheme({
     stepper: {
-      iconColor: 'black',
-      inactiveIconColor: '#C58A02'
+        iconColor: 'black',
+        inactiveIconColor: '#C58A02'
     }
 });
 
