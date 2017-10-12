@@ -13,9 +13,57 @@ import LoginPersonIco from 'material-ui/svg-icons/social/person';
 import AddPersonIco from 'material-ui/svg-icons/social/person-add';
 import FontIcon from 'material-ui/FontIcon';
 
+import { logout } from '../actions/AuthActions'
+
+import PropTypes from 'prop-types'
+
 class Navigation extends Component {
+
+    logout(e) {
+        e.preventDefault()
+        this.props.logout()
+    }
+
     render() {
         const { pathname } = this.props.location;
+        const { isAuthenticated } = this.props.auth;
+
+        const userLink = (
+            <div className='col-md-6 xs-only-text-center text-right'>
+                <RaisedButton
+                    className='common-button'
+                    label="Logout"
+                    labelPosition="before"
+                    secondary={true}
+                    icon={<AddPersonIco />}
+                    onClick={this.logout.bind(this)}
+                />
+            </div>
+        )
+
+        const guestLink = (
+            <div className='col-md-6 xs-only-text-center text-right'>
+                <Link to='signup' >
+                    <RaisedButton
+                        className='common-button'
+                        label="Sign up"
+                        labelPosition="before"
+                        secondary={true}
+                        icon={<AddPersonIco />}
+                    />
+                </Link>
+                <Link to='login' >
+                    <RaisedButton
+                        className='common-button'
+                        label="Login"
+                        labelPosition="before"
+                        primary={true}
+                        icon={<LoginPersonIco />}
+                    />
+                </Link>
+            </div>
+        )
+
         return (
             <div className='global-toolbar'>
                 <div className='row' style={{ 'margin': '0rem' }}>
@@ -26,26 +74,7 @@ class Navigation extends Component {
                             </span>
                         </Link>
                     </div>
-                    <div className='col-md-6 xs-only-text-center text-right'>
-                        <Link to='signup' >
-                            <RaisedButton
-                                className='common-button'
-                                label="Sign up"
-                                labelPosition="before"
-                                secondary={true}
-                                icon={<AddPersonIco />}
-                            />
-                        </Link>
-                        <Link to='login' >
-                            <RaisedButton
-                                className='common-button'
-                                label="Login"
-                                labelPosition="before"
-                                primary={true}
-                                icon={<LoginPersonIco />}
-                            />
-                        </Link>
-                    </div>
+                    {isAuthenticated ? userLink : guestLink}
 
                 </div>
             </div>
@@ -53,12 +82,15 @@ class Navigation extends Component {
     }
 }
 
-const mapStateToProps = ({ bucket }) => {
+Navigation.propTypes = {
+    auth: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired
+}
+
+function mapStateToProps(state) {
     return {
-        bucket,
-        total: _.size(bucket) <= 0 ? 0 : _.map(bucket, bucket => bucket.quantity)
-            .reduce((sum, n) => sum + n)
+        auth: state.auth
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Navigation));
+export default withRouter(connect(mapStateToProps, { logout })(Navigation));
