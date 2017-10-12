@@ -30,6 +30,7 @@ import 'bootstrap';
 
 import jwt from 'jsonwebtoken'
 import { setCurrentUser } from './actions/AuthActions'
+import requiredAuth from './helpers/util/requiredAuth'
 
 const store = createStore(
     reducer,
@@ -50,7 +51,7 @@ const router = () => {
                     <Navigation />
                 </div>
                 <Switch>
-                    <Route path="/customer" component={Customer} />
+                    <Route path="/customer" component={requiredAuth(Customer)} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
                     <Route path="/" component={HomeIndex} />
@@ -70,10 +71,9 @@ const muiTheme = getMuiTheme({
     }
 });
 
-if(localStorage.jwtToken)
-{
+if (localStorage.jwtToken) {
     setAuthorizationToken(localStorage.jwtToken)
-    store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))    
+    store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))
 }
 
 
