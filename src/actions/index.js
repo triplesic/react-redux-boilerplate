@@ -30,13 +30,3 @@ export function getAllItemInBucket() {
         type: ActionTypes.GET_ALL_ITEM_BUCKET
     }
 }
-
-export function login(data) {
-    let sendData = {
-        username: data.username,
-        passwordNoEncrypted: data.password
-    }
-    return dispatch => {
-        return axios.post(`${ROOT_URL}/loginToApp`, sendData)
-    }
-}

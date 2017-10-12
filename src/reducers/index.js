@@ -5,6 +5,7 @@ import ShoppingReducer, {bucketReducer, orderEventReducer, stockReducer} from '.
 import DeliveryReducer from './delivery_reducer';
 import OrderSummary, { orderSummaryUploadReducer } from './order_summary_reducer';
 import PaymentReducer from './payment_reducer';
+import AuthReducer from './auth_reducer';
 
 
 const rootReducer = combineReducers({
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     delivery: DeliveryReducer,
     orderSummary: OrderSummary,
     orderSummaryUpload: orderSummaryUploadReducer,
-    payment: PaymentReducer
+    payment: PaymentReducer,
+    auth: AuthReducer
 });
 
 export default rootReducer;

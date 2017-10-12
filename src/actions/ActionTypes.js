@@ -16,3 +16,5 @@ export const ADD_PAYMENT_INFORMATION = 'add_payment_information';
 export const GET_PAYMENT_INFORMATION = 'get_payment_information';
 export const UPLOAD_IMAGE = 'upload_image';
 export const FETCH_ORDER_SUM_SLIP_IMAGE = 'fecth_order_sum_slip_image'
+
+export const SET_CURRENT_USER = 'set_current_user';

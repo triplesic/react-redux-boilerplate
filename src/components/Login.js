@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import TextFieldModule from './modules/TextFieldModule'
 import RaisedButton from 'material-ui/RaisedButton'
 
-import { login } from '../actions'
+import { login } from '../actions/AuthActions'
 
 import _ from 'lodash'
 

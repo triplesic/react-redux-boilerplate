@@ -14,6 +14,8 @@ import Customer from './components/Customer'
 import Signup from './components/Signup'
 import Login from './components/Login'
 
+import setAuthorizationToken from './helpers/util/setAuthorizationToken'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -25,6 +27,9 @@ import './fonts/Eng/Nunito-SemiBold.ttf';
 import './fonts/Thai/Prompt-Light.ttf';
 import myImg from './asset/missing.png'
 import 'bootstrap';
+
+import jwt from 'jsonwebtoken'
+import { setCurrentUser } from './actions/AuthActions'
 
 const store = createStore(
     reducer,
@@ -64,6 +69,13 @@ const muiTheme = getMuiTheme({
         inactiveIconColor: '#C58A02'
     }
 });
+
+if(localStorage.jwtToken)
+{
+    setAuthorizationToken(localStorage.jwtToken)
+    store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))    
+}
+
 
 ReactDom.render(
     <MuiThemeProvider muiTheme={muiTheme}>
