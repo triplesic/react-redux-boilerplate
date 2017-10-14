@@ -35,3 +35,16 @@ export function logout() {
         dispatch(setCurrentUser({}))
     }
 }
+
+export function signup(data) {
+    console.log('call sign up action')
+    let sendData = {
+        username: data.username,
+        passwordNoEncrypted: data.password,
+        name: data.name,
+        lastname: data.lastname
+    }
+    return dispatch => {
+        return axios.post(`${ROOT_URL}/register`, sendData)
+    }
+}

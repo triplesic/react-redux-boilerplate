@@ -3,6 +3,17 @@ import { connect } from 'react-redux';
 
 import TextFieldModule from './modules/TextFieldModule'
 import RaisedButton from 'material-ui/RaisedButton'
+import Snackbar from 'material-ui/Snackbar';
+
+import { signup } from '../actions/AuthActions'
+
+const responseErrStyle = {
+    backgroundColor: '#ff4281'
+}
+
+const responseSuccessStyle = {
+    backgroundColor: '#4CAF50'
+}
 
 class Signup extends Component {
     constructor(props) {
@@ -12,24 +23,40 @@ class Signup extends Component {
             password: '',
             confirmPassword: '',
             name: '',
+            lastname: '',
             isLoading: false,
-            errors: {}
+            errors: {},
+            responseMsg: '',
+            snackbarStatus: false
         }
     }
-    // validatePassword() {
-    //     let passWordErr = {}
 
-    //     if (!_.isEqual(this.state.password, this.state.confirmPassword)) {
-    //         errors.password = "Password not match!"
-    //         errors.confirmPassword = "Password not match!"
-    //     }
-
-    //     return {
-    //         passWordErr,
-    //         isPasswordValid: _.isEmpty(passWordErr)
-    //     }
-    // }
-
+    signup() {
+        const { errors, isValid } = this.isValid()
+        if (!isValid) {
+            this.setState({ errors })
+        } else {
+            this.setState({ errors: {}, isLoading: true })
+            this.props.signup(this.state)
+                .then(
+                res => {
+                    this.setState({
+                        responseMsg: res.data.message,
+                        isLoading: false,
+                        snackbarStatus: true
+                    })
+                },
+                err => {
+                    this.setState({
+                        errors: err.response.data,
+                        responseMsg: err.response.data.message,
+                        isLoading: false,
+                        snackbarStatus: true
+                    })
+                }
+                )
+        }
+    }
     isValid() {
         let errors = {}
 
@@ -45,29 +72,47 @@ class Signup extends Component {
         if (_.isEmpty(this.state.name)) {
             errors.name = "This field is required!"
         }
-
-        if (!_.isEqual(this.state.password, this.state.confirmPassword)) {
-            errors.password = "Password not match!"
-            errors.confirmPassword = "Password not match!"
+        if (_.isEmpty(this.state.lastname)) {
+            errors.lastname = "This field is required!"
         }
-        // passwordValidate = validatePassword()
 
-        // if (validatePassword().isValid)
-        // {
+        let passwordValidate = this.validatePassword()
 
-        // }
+        if (!passwordValidate.isPasswordValid) {
+            errors.password = passwordValidate.errMsg.password
+            errors.confirmPassword = passwordValidate.errMsg.confirmPassword
+        }
         return {
             errors,
             isValid: _.isEmpty(errors)
         }
     }
 
-    signup() {
-        const { errors, isValid } = this.isValid()
-        if (!isValid) {
-            this.setState({ errors })
+    validatePassword() {
+        let errMsg = {}
+
+        if (!_.isEqual(this.state.password, this.state.confirmPassword)) {
+            errMsg.password = "Password not match!"
+            errMsg.confirmPassword = "Password not match!"
         } else {
-            this.setState({ errors: {}, isLoading: true })
+            if (this.state.password.length < 6) {
+                errMsg.password = "Password not less than 6 charactors"
+                errMsg.confirmPassword = "Password not less than 6 charactors"
+            }
+        }
+
+        return {
+            errMsg,
+            isPasswordValid: _.isEmpty(errMsg)
+        }
+    }
+
+
+
+    handleSnackbarClose() {
+        this.setState({ snackbarStatus: false })
+        if (_.isEmpty(this.state.errors)) {
+            this.props.history.push('/login')
         }
     }
 
@@ -76,6 +121,7 @@ class Signup extends Component {
             <div className='container'>
                 <div className='col-md-5 text-center' style={{ float: 'none', margin: 'auto' }}>
                     <h1>Sign up</h1>
+
                     <div className='col-md-12'>
                         <TextFieldModule
                             value=''
@@ -109,9 +155,18 @@ class Signup extends Component {
                         <TextFieldModule
                             value=''
                             lableName='Name'
-                            hintText='Name Lastname'
+                            hintText='Name'
                             errorText={this.state.errors.name}
                             onChange={e => this.setState({ name: e.target.value })}
+                        />
+                    </div>
+                    <div className='col-md-12'>
+                        <TextFieldModule
+                            value=''
+                            lableName='Lastname'
+                            hintText='Lastname'
+                            errorText={this.state.errors.lastname}
+                            onChange={e => this.setState({ lastname: e.target.value })}
                         />
                     </div>
                     <div className='col-md-12'>
@@ -122,6 +177,13 @@ class Signup extends Component {
                             disabled={this.state.isLoading}
                             onClick={this.signup.bind(this)} />
                     </div>
+                    <Snackbar
+                        open={this.state.snackbarStatus}
+                        message={this.state.responseMsg}
+                        bodyStyle={_.isEmpty(this.state.errors) ? responseSuccessStyle : responseErrStyle}
+                        autoHideDuration={4000}
+                        onRequestClose={this.handleSnackbarClose.bind(this)}
+                    />
                 </div>
             </div>
         )
@@ -134,4 +196,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, {})(Signup)
+export default connect(mapStateToProps, { signup })(Signup)
