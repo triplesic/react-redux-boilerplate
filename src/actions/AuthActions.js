@@ -22,8 +22,8 @@ export function login(data) {
                 const token = res.data.obj.token
                 localStorage.setItem('jwtToken', token)
                 setAuthorizationToken(token)
-                console.log(jwt.decode(token))
                 dispatch(setCurrentUser(jwt.decode(token)))
+                return res
             })
     }
 }
@@ -37,7 +37,6 @@ export function logout() {
 }
 
 export function signup(data) {
-    console.log('call sign up action')
     let sendData = {
         username: data.username,
         passwordNoEncrypted: data.password,

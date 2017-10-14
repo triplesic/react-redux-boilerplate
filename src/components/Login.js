@@ -3,10 +3,19 @@ import { connect } from 'react-redux'
 
 import TextFieldModule from './modules/TextFieldModule'
 import RaisedButton from 'material-ui/RaisedButton'
+import Snackbar from 'material-ui/Snackbar';
 
 import { login } from '../actions/AuthActions'
 
 import _ from 'lodash'
+
+const responseErrStyle = {
+    backgroundColor: '#ff4281'
+}
+
+const responseSuccessStyle = {
+    backgroundColor: '#4CAF50'
+}
 
 class Login extends Component {
 
@@ -16,7 +25,10 @@ class Login extends Component {
             username: '',
             password: '',
             isLoading: false,
-            errors: {}
+            errors: {},
+            snackbarStatus: false,
+            responseMsg: '',
+
         }
     }
 
@@ -39,31 +51,37 @@ class Login extends Component {
     }
 
     login() {
-        console.log('login call')
-        console.log(this.state)
-
         const { errors, isValid } = this.isValid()
 
         if (!isValid) {
             this.setState({ errors })
-            console.log('error')
         }
         else {
-            console.log('call api')
             this.setState({ errors: {}, isLoading: true })
             this.props.login(this.state)
                 .then(
                 res => {
-                    console.log('success')
-                    //console.log('token : ' + res.data.obj.token)
-                    this.props.history.push('/');
+                    this.setState({
+                        responseMsg: res.data.message,
+                        snackbarStatus: true
+                    })
                 },
                 err => {
-                    console.log('error')
-                    console.log(err)
-                    this.setState({ errors: err.data, isLoading: false })
+                    this.setState({
+                        errors: err.response.data,
+                        responseMsg: err.response.data.message,
+                        isLoading: false,
+                        snackbarStatus: true
+                    })
                 }
                 )
+        }
+    }
+
+    handleSnackbarClose() {
+        this.setState({ snackbarStatus: false })
+        if (_.isEmpty(this.state.errors)) {
+            this.props.history.push('/');
         }
     }
 
@@ -100,6 +118,13 @@ class Login extends Component {
                             disabled={this.state.isLoading}
                             onClick={this.login.bind(this)} />
                     </div>
+                    <Snackbar
+                        open={this.state.snackbarStatus}
+                        message={this.state.responseMsg}
+                        bodyStyle={_.isEmpty(this.state.errors) ? responseSuccessStyle : responseErrStyle}
+                        autoHideDuration={2000}
+                        onRequestClose={this.handleSnackbarClose.bind(this)}
+                    />
                 </div>
             </div>
         )
