@@ -67,9 +67,11 @@ class Login extends Component {
                     })
                 },
                 err => {
+                    let errData = _.isEmpty(err.response) ? err.name : err.response.data
+                    let errMsg = _.isEmpty(err.response) ? err + '' : err.response.data.message
                     this.setState({
-                        errors: err.response.data,
-                        responseMsg: err.response.data.message,
+                        errors: errData,
+                        responseMsg: errMsg,
                         isLoading: false,
                         snackbarStatus: true
                     })
