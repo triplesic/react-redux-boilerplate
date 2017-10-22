@@ -14,8 +14,6 @@ import Customer from './components/Customer'
 import Signup from './components/Signup'
 import Login from './components/Login'
 
-import setAuthorizationToken from './helpers/util/setAuthorizationToken'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -30,6 +28,8 @@ import 'bootstrap';
 
 import jwt from 'jsonwebtoken'
 import { setCurrentUser } from './actions/AuthActions'
+
+import setAuthorizationToken from './helpers/util/setAuthorizationToken'
 import requiredAuth from './helpers/util/requiredAuth'
 
 const store = createStore(

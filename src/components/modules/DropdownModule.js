@@ -9,6 +9,11 @@ const styles = {
   },
 };
 
+const underlineStyle = {}
+const underlineErrorStyle = {
+  borderTop: '2px solid #f44438'
+}
+
 export default class DropDownModule extends React.Component {
 
   constructor(props) {
@@ -32,11 +37,13 @@ export default class DropDownModule extends React.Component {
           onChange={this.handleChange}
           style={styles.customWidth}
           autoWidth={false}
+          underlineStyle={(this.props.errorText) ? underlineErrorStyle : underlineStyle}
         >
           {this.props.data.map((row, index) => (
             <MenuItem value={row.id} primaryText={row.name} key={row.id} />
           ))}
         </DropDownMenu>
+        <div style={{ paddingLeft: '24px', color: '#f44438', fontSize: '12px' }}>{this.props.errorText}</div>
       </div>
     );
   }
