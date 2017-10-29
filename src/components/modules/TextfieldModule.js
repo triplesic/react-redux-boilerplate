@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import TextField from 'material-ui/TextField';
 
+import _ from 'lodash'
+
 export default class TextFieldModule extends React.Component {
 
     constructor(props) {
@@ -37,6 +39,7 @@ export default class TextFieldModule extends React.Component {
                     hintText={this.props.hintText}
                     errorText={this.props.errorText}
                     value={this.state.value}
+                    value={_.isNil(this.state.value) ? '' : this.state.value}
                     style={Object.assign({ paddingLeft: '24px' })}
                     type={this.props.type}
                     disabled={this.props.disabled}
