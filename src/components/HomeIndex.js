@@ -36,32 +36,12 @@ class HomeIndex extends Component {
                 </div>
                 <div className='col-md-3 common-vertical-padding'>
                     <CardModule
-                        title='Machine'
-                        subtitle='management'
+                        title='Facebook OAUTH'
+                        subtitle='Facebook OAUTH sample'
                         avatar={reactLogo}
                         cardStyle={{ backgroundColor: 'rgb(250, 250, 250)' }}
                         //buttonLabel='Machine management'
-                        redirect='/customer'
-                        onClick={this.cardClick} />
-                </div>
-                <div className='col-md-3 common-vertical-padding'>
-                    <CardModule
-                        title='Product'
-                        subtitle='management'
-                        avatar={reactLogo}
-                        cardStyle={{ backgroundColor: 'rgb(250, 250, 250)' }}
-                        //buttonLabel='Product management'
-                        redirect='/customer'
-                        onClick={this.cardClick} />
-                </div>
-                <div className='col-md-3 common-vertical-padding'>
-                    <CardModule
-                        title='Category'
-                        subtitle='management'
-                        avatar={reactLogo}
-                        cardStyle={{ backgroundColor: 'rgb(250, 250, 250)' }}
-                        //buttonLabel='Category management'
-                        redirect='/customer'
+                        redirect='/facebook_oauth'
                         onClick={this.cardClick} />
                 </div>
             </div>

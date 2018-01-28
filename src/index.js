@@ -14,6 +14,8 @@ import Customer from './components/Customer'
 import Signup from './components/Signup'
 import Login from './components/Login'
 
+import FacebookOauth from './components/FacebookOauth'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -51,6 +53,7 @@ const router = () => {
                     <Navigation />
                 </div>
                 <Switch>
+                    <Route path="/facebook_oauth" component={FacebookOauth} />
                     <Route path="/customer" component={requiredAuth(Customer)} />
                     <Route path="/signup" component={Signup} />
                     <Route path="/login" component={Login} />
