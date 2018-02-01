@@ -8,8 +8,9 @@ import promise from 'redux-promise';
 import reducer from './reducers'
 import { persistStore, autoRehydrate } from 'redux-persist'
 
-import Navigation from './components/Navigation';
-import HomeIndex from './components/HomeIndex';
+import RecaptchaComponent from './components/RecaptchaComponent'
+import Navigation from './components/Navigation'
+import HomeIndex from './components/HomeIndex'
 import Customer from './components/Customer'
 import Signup from './components/Signup'
 import Login from './components/Login'
@@ -53,6 +54,7 @@ const router = () => {
                     <Navigation />
                 </div>
                 <Switch>
+                    <Route path="/recaptcha" component={RecaptchaComponent} />
                     <Route path="/facebook_oauth" component={FacebookOauth} />
                     <Route path="/customer" component={requiredAuth(Customer)} />
                     <Route path="/signup" component={Signup} />

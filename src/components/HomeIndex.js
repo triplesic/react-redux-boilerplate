@@ -44,6 +44,16 @@ class HomeIndex extends Component {
                         redirect='/facebook_oauth'
                         onClick={this.cardClick} />
                 </div>
+                <div className='col-md-3 common-vertical-padding'>
+                    <CardModule
+                        title='ReCaptcha'
+                        subtitle='ReCaptcha sample'
+                        avatar={reactLogo}
+                        cardStyle={{ backgroundColor: 'rgb(250, 250, 250)' }}
+                        //buttonLabel='Machine management'
+                        redirect='/recaptcha'
+                        onClick={this.cardClick} />
+                </div>
             </div>
         )
     }
